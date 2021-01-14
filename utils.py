@@ -30,8 +30,8 @@ def recv_file(socket, filename):
 
 def save_to_file(data,filename):
     print("Saving file")
-    f = open("storage/"+filename,"xb")
-    f.write(str.encode(data))
+    f = open("storage/"+filename,"x")
+    f.write(data)
     f.close()
 
 def send_listing(socket):

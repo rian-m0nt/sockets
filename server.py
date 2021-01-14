@@ -1,7 +1,7 @@
 import socket
 import sys
 import utils
-
+import os
 
 args=sys.argv[1:]
 port=args[0]
@@ -33,16 +33,24 @@ while True:
                 data_args = str(bytes_read).split(",")
                 print(data_args)
                 print(f"Properties:[command:{data_args[0]}]")
-
-                if data_args[0].lower()=="put":
+                command = data_args[0].replace("|","").lower()
+                if command=="put":
                     print(f"Properties:[command:{data_args[0]}],[filename:{data_args[1]}]")
                     print("Saving file...")
                     utils.save_to_file(data_args[2],data_args[1])
                     break
-                if data_args[0].lower()=="get":
+                if command=="get":
                     print(f"Properties:[command:{data_args[0]}],[filename:{data_args[1]}]")
                   #  file = utils.readfile(data_args[1])
                     utils.send_file(client,data_args[1],"")
+                if command=="list":
+                    print("Recieved list")
+                    files=os.listdir()
+                    message=""
+                    for file in files:
+                        message += file + "\\n"
+                    client.sendall(str.encode(message))
+
             else:
                 break
 

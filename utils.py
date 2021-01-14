@@ -6,12 +6,12 @@ DELIMITER=","
 def send_file(socket, filename,appender):
     print("Sending file...")
     file = readfile(filename)
-    message = appender + DELIMITER + filename + DELIMITER + file
+    message = appender + DELIMITER + filename + DELIMITER + str(file)
     sent_file=socket.sendall(str.encode(message))
     return sent_file
 
 def readfile(filename):
-    f = open(filename)
+    f = open(filename,"rb")
     bytes=f.read()
     return bytes
 
@@ -30,8 +30,8 @@ def recv_file(socket, filename):
 
 def save_to_file(data,filename):
     print("Saving file")
-    f = open("storage/"+filename,"w")
-    f.write(data)
+    f = open("storage/"+filename,"xb")
+    f.write(str.encode(data))
     f.close()
 
 def send_listing(socket):

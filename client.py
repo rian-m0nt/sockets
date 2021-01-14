@@ -26,14 +26,17 @@ if operation.lower()=="get":
 
     data = bytearray(1)
     bytes_read=""
-    while len(data)>0:
+    while len(data)>0 and "\\n" not in data.decode():
          data = soc.recv(4096)
          print("Recieved data packet")
          bytes_read+=data.decode()
+         print(data)
     print("Recieved all data from server")
     print(bytes_read)
-    data_args = bytes_read.split()
-    print(f"Properties:[command:{data_args[0]}],[filename:{data_args[1]}]")
-    print("Saving file...")
-    utils.save_to_file(data_args[2],data_args[1]+"d")
+    if len(bytes_read)>0:
+        data_args = bytes_read.split(",")
+        print(data_args)
+        print(f"Properties:[command:{data_args[0]}],[filename:{data_args[1]}]")
+        print("Saving file...")
+        utils.save_to_file(data_args[2],"client"+data_args[1])
 exit(0)

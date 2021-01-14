@@ -41,8 +41,8 @@ while True:
                     break
                 if data_args[0].lower()=="get":
                     print(f"Properties:[command:{data_args[0]}],[filename:{data_args[1]}]")
-                    file = utils.readfile(data_args[1])
-                    utils.send_file(client,data_args[0])
+                  #  file = utils.readfile(data_args[1])
+                    utils.send_file(client,data_args[1],"")
             else:
                 break
 

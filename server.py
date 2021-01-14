@@ -23,7 +23,7 @@ while True:
         while True:
             data = bytearray(1)
             bytes_read=''
-            while len(data) > 0:
+            while len(data) > 0 and "|" not in data.decode():
                 data = client.recv(4096)
                 print("Recieved data packet")
                 bytes_read+=data.decode()
@@ -39,6 +39,10 @@ while True:
                     print("Saving file...")
                     utils.save_to_file(data_args[2],data_args[1])
                     break
+                if data_args[0].lower()=="get":
+                    print(f"Properties:[command:{data_args[0]}],[filename:{data_args[1]}]")
+                    file = utils.readfile(data_args[1])
+                    utils.send_file(client,data_args[0])
             else:
                 break
 

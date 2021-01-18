@@ -60,4 +60,7 @@ if operation.lower()=="list":
 
     for item in items:
         print(item)
+
+utils.logging(port, operation.lower(), data_args[1])
+
 exit(0)

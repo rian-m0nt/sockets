@@ -57,6 +57,7 @@ while True:
     finally:
         client.close()
 
+utils.logging(port, command, data_args[1])
 soc.close()
 exit(0)
 

@@ -46,5 +46,3 @@ def logging(socket, port, requestType, fileName):
     ipAdress = socket.gethostname()
 
     print("Log: ", ipAdress, port, requestType, fileName)
-    if (True):
-        print("Reason for failure")

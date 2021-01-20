@@ -12,8 +12,7 @@ def readfile(filename):
         f = open(filename,"rb")
         bytes=f.read()
     except FileNotFoundError:
-        print(f"File {filename} not found.")
-
+         logging(socket,"ERROR",-1,"SEND",f"File {filename} does not exist!")
     return bytes
 
 
@@ -28,10 +27,10 @@ def recv_file(socket, filename):
             print("Recieved data packet")
             f.write(data)
         f.close()
-        print("Completed recieve successfully");
+        logging(socket,"INFO",-1,"RECV",f"Received file.")
     except FileExistsError:
-        print(f"File {filename} already exists!")
-    print(data);
+        logging(socket,"ERROR",-1,"RECV",f"File {filename} already exists!")
+
 
 
 
@@ -42,8 +41,8 @@ def send_listing(socket):
 def recv_listing(socket):
     print("Receiving listing...")
 
-def logging(socket, port, requestType, fileName):
+def logging(socket,level, port, requestType, message):
 
     ipAdress = socket.gethostname()
 
-    print("Log: ", ipAdress, port, requestType, fileName)
+    print(f"LOG [{level}]: {ipAdress}, PORT {port}, TYPE{requestType}, {message}")

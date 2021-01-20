@@ -31,8 +31,7 @@ if operation.lower()=="list":
     bytes_read=""
     while len(data)>0 and "\\n" not in data.decode():
          data = soc.recv(4096)
-         print("Recieved data packet")
-
+         utils.logging(socket,"INFO",port,"LIST","Recieved List")
          bytes_read+=data.decode()
 
     print("Recieved all data from server")

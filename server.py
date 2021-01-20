@@ -25,19 +25,19 @@ while True:
             bytes_read=''
 
             data = client.recv(20)
-            print("Recieved data packet")
+            utils.logging(socket,"INFO",port,"REQUEST","Recieved data packet")
             bytes_read+=data.decode()
-            print("Recieved command bytes from client")
+            utils.logging(socket,"INFO",port,"REQUEST","Recieved command data")
             print(bytes_read)
 
 
             data_args = str(bytes_read).split(",")
-            print(data_args)
+
             print(f"Properties:[command:{data_args[0]}]")
             command = data_args[0].lower()
             if command=="put":
                 print(f"INFO: Properties:[command:{data_args[0]}],[filename:{data_args[1]}]")
-                print("INFO: Beginning file receive.")
+                utils.logging(socket,"INFO",port,"PUT","Beginning file recieve")
                 file = utils.recv_file(client,data_args[1])
 
                 break
@@ -46,7 +46,8 @@ while True:
                  #  file = utils.readfile(data_args[1])
                 utils.send_file(client,data_args[1])
             if command=="list":
-                print("Recieved list")
+                print(f"Properties:[command:{data_args[0]}]")
+                utils.logging(socket,"INFO",port,"LIST","Recieved list")
                 files=os.listdir()
                 message=""
                 for file in files:

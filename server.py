@@ -37,7 +37,7 @@ while True:
                 if command=="put":
                     print(f"Properties:[command:{data_args[0]}],[filename:{data_args[1]}]")
                     print("Saving file...")
-                    utils.save_to_file(data_args[2],data_args[1])
+                    utils.save_to_file(str.encode(data_args[2]),data_args[1])
                     break
                 if command=="get":
                     print(f"Properties:[command:{data_args[0]}],[filename:{data_args[1]}]")

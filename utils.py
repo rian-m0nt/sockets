@@ -30,7 +30,7 @@ def recv_file(socket, filename):
 
 def save_to_file(data,filename):
     print("Saving file")
-    f = open("storage/"+filename,"x")
+    f = open("storage/"+filename,"xb")
     f.write(data)
     f.close()
 

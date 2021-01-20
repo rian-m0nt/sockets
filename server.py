@@ -23,33 +23,35 @@ while True:
         while True:
             data = bytearray(1)
             bytes_read=''
-            while len(data) > 0 and "|" not in data.decode():
-                data = client.recv(4096)
-                print("Recieved data packet")
-                bytes_read+=data.decode()
-            print("Recieved all data from client")
+
+            data = client.recv(20)
+            print("Recieved data packet")
+            bytes_read+=data.decode()
+            print("Recieved command bytes from client")
             print(bytes_read)
-            if len(bytes_read)>0:
-                data_args = str(bytes_read).split(",")
-                print(data_args)
-                print(f"Properties:[command:{data_args[0]}]")
-                command = data_args[0].replace("|","").lower()
-                if command=="put":
-                    print(f"Properties:[command:{data_args[0]}],[filename:{data_args[1]}]")
-                    print("Saving file...")
-                    utils.save_to_file(str.encode(data_args[2]),data_args[1])
-                    break
-                if command=="get":
-                    print(f"Properties:[command:{data_args[0]}],[filename:{data_args[1]}]")
-                  #  file = utils.readfile(data_args[1])
-                    utils.send_file(client,data_args[1],"")
-                if command=="list":
-                    print("Recieved list")
-                    files=os.listdir()
-                    message=""
-                    for file in files:
-                        message += file + "\\n"
-                    client.sendall(str.encode(message))
+
+
+            data_args = str(bytes_read).split(",")
+            print(data_args)
+            print(f"Properties:[command:{data_args[0]}]")
+            command = data_args[0].lower()
+            if command=="put":
+                print(f"INFO: Properties:[command:{data_args[0]}],[filename:{data_args[1]}]")
+                print("INFO: Beginning file receive.")
+                file = utils.recv_file(client,data_args[1])
+
+                break
+            if command=="get":
+                print(f"Properties:[command:{data_args[0]}],[filename:{data_args[1]}]")
+                 #  file = utils.readfile(data_args[1])
+                utils.send_file(client,data_args[1])
+            if command=="list":
+                print("Recieved list")
+                files=os.listdir()
+                message=""
+                for file in files:
+                    message += file + "\\n"
+                client.sendall(str.encode(message))
 
             else:
                 break

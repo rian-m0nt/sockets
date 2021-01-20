@@ -3,11 +3,10 @@ import socket
 MAX_TIMEOUT = 24
 DELIMITER=","
 
-def send_file(socket, filename,appender):
+def send_file(socket, filename):
     print("Sending file...")
     file = readfile(filename)
-    message = appender + DELIMITER + filename + DELIMITER + str(file)
-    sent_file=socket.sendall(str.encode(message))
+    sent_file=socket.sendall(file)
     return sent_file
 
 def readfile(filename):
@@ -18,15 +17,17 @@ def readfile(filename):
 
 def recv_file(socket, filename):
     print("Receiving file...")
-    data = bytearray()
+    data = bytearray(1)
     bytes_read=""
-    timeout=0
-    while(len(data) > 0 and timeout < MAX_TIMEOUT):
+    f = open("files/"+filename,"xb")
+    while(len(data) > 0 and "\\n" not in data.decode()):
         data = socket.recv(4096)
         print("Recieved data packet")
-        bytes_read+=data.decode()
-        timeout+=1
-    save_to_file(data,filename)
+        f.write(data)
+    f.close()
+    print("Completed recieve successfully");
+    print(data);
+
 
 def save_to_file(data,filename):
     print("Saving file")

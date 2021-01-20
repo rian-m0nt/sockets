@@ -26,6 +26,7 @@ if operation.lower()=="put":
 if operation.lower()=="get":
    utils.recv_file(soc,filename)
 
+
 if operation.lower()=="list":
     data=bytearray(1)
     bytes_read=""
